@@ -1,0 +1,10 @@
+{
+  "name": "tsclienthttplib",
+  "description": "Simple client lib for gohttplib",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "inversify": "^5.0.1"
+  }
+}
