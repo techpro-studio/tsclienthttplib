@@ -1,20 +1,21 @@
 {
   "name": "tsclienthttplib",
   "description": "Simple client lib for gohttplib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "/lib/index.js",
   "types": "/lib/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "inversify": "^5.0.1"
   },
-
   "scripts": {
     "build": "tsc",
+    "test": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "prepublishOnly": "npm run lint && npm run build",
+    "postpublish": "git clean -fd",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
@@ -28,9 +29,9 @@
     "prettier": "^1.13.2",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.13.0",
-    "typescript": "^2.8.3"
+    "typescript": "^3.6.3"
   },
   "files": [
-    "lib/**/*"
+    "/lib/**/*"
   ]
 }
