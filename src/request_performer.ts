@@ -1,10 +1,11 @@
-import { BaseURLHolder } from './base_url_holder';
-import { RequestParams } from './request_params';
-import { ServerError, ServerErrorBody } from './server_error';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
+import { BaseURLHolder } from './base_url_holder';
 import { injectTypes } from './inject_types';
+import { RequestParams } from './request_params';
+import { ServerError, ServerErrorBody } from './server_error';
 
+// tslint:disable-next-line:interface-name
 export interface RequestPerformer {
     performRequest<T>(request: RequestParams): Promise<T>;
 }
@@ -31,7 +32,7 @@ export class DefaultRequestPerformer implements RequestPerformer {
         @inject(injectTypes.baseURLHolder) private baseURLHolder: BaseURLHolder
     ) {}
 
-    async performRequest<T>(request: RequestParams): Promise<T> {
+    public async performRequest<T>(request: RequestParams): Promise<T> {
         const ignoreCache = request.ignoreCache || false;
         const headers = request.headers || {};
         const timeout = request.timeout || 5000;
@@ -60,12 +61,12 @@ export class DefaultRequestPerformer implements RequestPerformer {
 
             xhr.onload = () => {
                 try {
-                    let response = JSON.parse(xhr.responseText);
+                    const response = JSON.parse(xhr.responseText);
                     if (xhr.status < 400) {
                         resolve(response as T);
                     } else {
-                        let serverErrorBody = response as ServerErrorBody;
-                        let serverError: ServerError = Object.assign(
+                        const serverErrorBody = response as ServerErrorBody;
+                        const serverError: ServerError = Object.assign(
                             serverErrorBody,
                             { statusCode: xhr.status }
                         );

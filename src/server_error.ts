@@ -1,20 +1,23 @@
+// tslint:disable-next-line:interface-name
 export interface Error {
     code: string;
     description?: string;
-    args?: Array<any>;
+    args?: any[];
     key?: string;
 }
 
+// tslint:disable-next-line:interface-name
 export interface ServerErrorBody {
-    errors: Array<Error>;
+    errors: Error[];
 }
 
+// tslint:disable-next-line:interface-name
 export interface ServerError extends ServerErrorBody {
     statusCode: number;
 }
 
 function isServerError(value: any): value is ServerError {
-    return (<ServerError>value).errors !== undefined;
+    return (value as ServerError).errors !== undefined;
 }
 
 export function isUnauthorizedError(error: any) {
@@ -36,7 +39,7 @@ export function getErrorMessage(error: any): string {
         return 'undefined error';
     }
     if (isServerError(error)) {
-        let err: Error = error.errors[0];
+        const err: Error = error.errors[0];
         return err.description ? err.description : err.code;
     }
     return error.toString();

@@ -1,10 +1,11 @@
-import { HTTPMethod, RequestParams } from './request_params';
-import { TokenHolder } from './token_holder';
-import { SecretHolder } from './secret_holder';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { injectTypes } from './inject_types';
+import { HTTPMethod, RequestParams } from './request_params';
+import { SecretHolder } from './secret_holder';
+import { TokenHolder } from './token_holder';
 
+// tslint:disable-next-line:interface-name
 export interface RequestFactory {
     make(
         method: HTTPMethod,
@@ -22,28 +23,29 @@ export class DefaultRequestFactory implements RequestFactory {
         @inject(injectTypes.secretHolder) private secretHolder: SecretHolder
     ) {}
 
-    make(
+    public make(
         method: HTTPMethod,
         relativeURl: string,
         query?: any,
         body?: any,
         formData?: FormData
     ): RequestParams {
-        let headers: {[key:string]: any} = {};
+        const headers: {[key:string]: any} = {};
         if (this.tokenHolder.token) {
-            headers['Authorization'] = `Bearer ${this.tokenHolder.token}`;
+            headers.Authorization = `Bearer ${this.tokenHolder.token}`;
         }
         if (this.secretHolder.secret) {
-            headers['Secret'] = this.secretHolder.secret;
+            headers.Secret = this.secretHolder.secret;
         }
         return {
-            method: method,
+            method,
             relativeURL: relativeURl,
-            query: query,
-            body: body,
-            formData: formData,
+            // tslint:disable-next-line:object-literal-sort-keys
+            query,
+            body,
+            formData,
             ignoreCache: true,
-            headers: headers,
+            headers,
             timeout: 23000
         };
     }

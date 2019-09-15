@@ -1,7 +1,7 @@
 export const injectTypes = Object.freeze({
     baseURLHolder: 'baseURLHolder',
-    tokenHolder: 'tokenHolder',
-    secretHolder: 'secretHolder',
+    requestFactory: 'requestFactory',
     requestPerformer: 'requestPerformer',
-    requestFactory: 'requestFactory'
+    secretHolder: 'secretHolder',
+    tokenHolder: 'tokenHolder',
 });

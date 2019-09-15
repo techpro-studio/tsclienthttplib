@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import 'reflect-metadata';
 
+// tslint:disable-next-line:interface-name
 export interface TokenHolder {
     token: string;
     deleteToken: () => void;
@@ -11,7 +12,7 @@ export class LocalStorageTokenHolder implements TokenHolder {
     private tokenStorageKey = '';
 
     get token(): string {
-        let value = localStorage.getItem(this.tokenStorageKey);
+        const value = localStorage.getItem(this.tokenStorageKey);
         return value ? value : "";
     }
 
@@ -19,7 +20,7 @@ export class LocalStorageTokenHolder implements TokenHolder {
         localStorage.setItem(this.tokenStorageKey, value);
     }
 
-    deleteToken = () => {
+    public deleteToken = () => {
         localStorage.removeItem(this.tokenStorageKey);
     };
 }

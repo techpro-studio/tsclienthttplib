@@ -1,11 +1,11 @@
-import { ServerError } from './server_error';
 import { injectable } from 'inversify';
+import { ServerError } from './server_error';
 
 @injectable()
 export class MockApi {
-    defaultTimeout = 1000;
+    public defaultTimeout = 1000;
 
-    returnResolvedPromise<T>(value: T, timeout?: number): Promise<T> {
+    public returnResolvedPromise<T>(value: T, timeout?: number): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             setTimeout(
                 () => {
@@ -16,7 +16,7 @@ export class MockApi {
         });
     }
 
-    returnRejectedPromise<T>(err: ServerError, timeout?: number): Promise<T> {
+    public returnRejectedPromise<T>(err: ServerError, timeout?: number): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             setTimeout(
                 () => {
