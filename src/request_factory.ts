@@ -7,46 +7,34 @@ import { TokenHolder } from './token_holder';
 
 // tslint:disable-next-line:interface-name
 export interface RequestFactory {
-    make(
-        method: HTTPMethod,
-        relativeURl: string,
-        query?: any,
-        body?: any,
-        formData?: FormData
-    ): RequestParams;
+  make(method: HTTPMethod, relativeURl: string, query?: any, body?: any, formData?: FormData): RequestParams;
 }
 
 @injectable()
 export class DefaultRequestFactory implements RequestFactory {
-    constructor(
-        @inject(injectTypes.tokenHolder) private tokenHolder: TokenHolder,
-        @inject(injectTypes.secretHolder) private secretHolder: SecretHolder
-    ) {}
+  constructor(
+    @inject(injectTypes.tokenHolder) private tokenHolder: TokenHolder,
+    @inject(injectTypes.secretHolder) private secretHolder: SecretHolder,
+  ) {}
 
-    public make(
-        method: HTTPMethod,
-        relativeURl: string,
-        query?: any,
-        body?: any,
-        formData?: FormData
-    ): RequestParams {
-        const headers: {[key:string]: any} = {};
-        if (this.tokenHolder.token) {
-            headers.Authorization = `Bearer ${this.tokenHolder.token}`;
-        }
-        if (this.secretHolder.secret) {
-            headers.Secret = this.secretHolder.secret;
-        }
-        return {
-            method,
-            relativeURL: relativeURl,
-            // tslint:disable-next-line:object-literal-sort-keys
-            query,
-            body,
-            formData,
-            ignoreCache: true,
-            headers,
-            timeout: 23000
-        };
+  public make(method: HTTPMethod, relativeURl: string, query?: any, body?: any, formData?: FormData): RequestParams {
+    const headers: { [key: string]: any } = {};
+    if (this.tokenHolder.token) {
+      headers.Authorization = `Bearer ${this.tokenHolder.token}`;
     }
+    if (this.secretHolder.secret) {
+      headers.Secret = this.secretHolder.secret;
+    }
+    return {
+      method,
+      relativeURL: relativeURl,
+      // tslint:disable-next-line:object-literal-sort-keys
+      query,
+      body,
+      formData,
+      ignoreCache: true,
+      headers,
+      timeout: 23000,
+    };
+  }
 }
