@@ -19,8 +19,8 @@ export class DefaultRequestFactory implements RequestFactory {
 
   public make(method: HTTPMethod, relativeURl: string, query?: any, body?: any, formData?: FormData): RequestParams {
     const headers: { [key: string]: any } = {};
-    if (this.tokenHolder.token) {
-      headers.Authorization = `Bearer ${this.tokenHolder.token}`;
+    if (this.tokenHolder.getToken()) {
+      headers.Authorization = `Bearer ${this.tokenHolder.getToken()}`;
     }
     if (this.secretHolder.secret) {
       headers.Secret = this.secretHolder.secret;
