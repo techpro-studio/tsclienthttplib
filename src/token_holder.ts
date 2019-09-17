@@ -3,7 +3,8 @@ import 'reflect-metadata';
 
 // tslint:disable-next-line:interface-name
 export interface TokenHolder {
-  token: string;
+  getToken: ()=> string|null;
+  setToken: (value:string)=>void;
   deleteToken: () => void;
 }
 
@@ -11,12 +12,11 @@ export interface TokenHolder {
 export class LocalStorageTokenHolder implements TokenHolder {
   private tokenStorageKey = '';
 
-  get token(): string {
-    const value = localStorage.getItem(this.tokenStorageKey);
-    return value ? value : '';
+  public getToken(): string|null {
+    return localStorage.getItem(this.tokenStorageKey);
   }
 
-  set token(value: string) {
+  public setToken(value: string){
     localStorage.setItem(this.tokenStorageKey, value);
   }
 
